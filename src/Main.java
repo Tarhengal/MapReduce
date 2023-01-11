@@ -4,6 +4,8 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) throws Exception {
+        long startTime = System.nanoTime();
+
 
         ArrayList<String> myList1 = new ArrayList<String>();
         ArrayList<HashMap> reducedListfinale = new ArrayList<HashMap>();
@@ -43,25 +45,43 @@ public class Main {
             myList4.addAll(strings);
         }
 
+
+
+        ArrayList<Mapper> lesMaps =new ArrayList<>();
         Mapper map1 = new Mapper(myList1,4);
-        map1.getShuffleList();
+        /*map1.getShuffleList();
         ArrayList<HashMap> mappped1 = map1.getMap();
-        System.out.println(mappped1);
+        System.out.println(mappped1);*/
 
         Mapper map2 = new Mapper(myList2,4);
-        map2.getShuffleList();
+        /*map2.getShuffleList();
         ArrayList<HashMap> mappped2 = map2.getMap();
-        System.out.println(mappped2);
+        System.out.println(mappped2); */
 
         Mapper map3 = new Mapper(myList3,4);
-        map3.getShuffleList();
+       /* map3.getShuffleList();
         ArrayList<HashMap> mappped3 = map3.getMap();
-        System.out.println(mappped3);
+        System.out.println(mappped3); */
 
         Mapper map4 = new Mapper(myList4,4);
-        map4.getShuffleList();
+        /* map4.getShuffleList();
         ArrayList<HashMap> mappped4 = map4.getMap();
-        System.out.println(mappped4);
+        System.out.println(mappped4);  */
+
+
+        map1.start();
+        map2.start();
+        map3.start();
+        map4.start();
+
+        lesMaps.add(map1);
+        lesMaps.add(map2);
+        lesMaps.add(map3);
+        lesMaps.add(map4);
+
+        for(int i=0 ; i < lesMaps.size();i++){
+            lesMaps.get(i).join();
+        }
 
 
         ArrayList<HashMap> reducedList1 = new ArrayList<HashMap>();
@@ -69,54 +89,86 @@ public class Main {
         ArrayList<HashMap> reducedList3 = new ArrayList<HashMap>();
         ArrayList<HashMap> reducedList4 = new ArrayList<HashMap>();
 
-        reducedList1.add(mappped1.get(0));
-        reducedList1.add(mappped2.get(0));
-        reducedList1.add(mappped3.get(0));
-        reducedList1.add(mappped4.get(0));
+        reducedList1.add(map1.getOutputList().get(0));
+        reducedList1.add(map2.getOutputList().get(0));
+        reducedList1.add(map3.getOutputList().get(0));
+        reducedList1.add(map4.getOutputList().get(0));
 
         System.out.println(reducedList1);
 
-        reducedList2.add(mappped1.get(1));
-        reducedList2.add(mappped2.get(1));
-        reducedList2.add(mappped3.get(1));
-        reducedList2.add(mappped4.get(1));
+        reducedList2.add(map1.getOutputList().get(1));
+        reducedList2.add(map2.getOutputList().get(1));
+        reducedList2.add(map3.getOutputList().get(1));
+        reducedList2.add(map4.getOutputList().get(1));
 
-        reducedList3.add(mappped1.get(2));
-        reducedList3.add(mappped2.get(2));
-        reducedList3.add(mappped3.get(2));
-        reducedList3.add(mappped4.get(2));
 
-        reducedList4.add(mappped1.get(3));
-        reducedList4.add(mappped2.get(3));
-        reducedList4.add(mappped3.get(3));
-        reducedList4.add(mappped4.get(3));
+        reducedList3.add(map1.getOutputList().get(2));
+        reducedList3.add(map2.getOutputList().get(2));
+        reducedList3.add(map3.getOutputList().get(2));
+        reducedList3.add(map4.getOutputList().get(2));
+
+        reducedList4.add(map1.getOutputList().get(3));
+        reducedList4.add(map2.getOutputList().get(3));
+        reducedList4.add(map3.getOutputList().get(3));
+        reducedList4.add(map4.getOutputList().get(3));
 
 
         Reducer red1 = new Reducer(reducedList1);
-        HashMap<String, Integer> reduced1 = red1.getReduce();
+       /* HashMap<String, Integer> reduced1 = red1.getReduce();
         reducedListfinale.add(reduced1);
-        System.out.println(reduced1);
+        System.out.println(reduced1);*/
 
         Reducer red2 = new Reducer(reducedList2);
-        HashMap<String, Integer> reduced2 = red2.getReduce();
+        /*HashMap<String, Integer> reduced2 = red2.getReduce();
         reducedListfinale.add(reduced2);
-        System.out.println(reduced2);
+        System.out.println(reduced2);*/
 
         Reducer red3 = new Reducer(reducedList3);
-        HashMap<String, Integer> reduced3 = red3.getReduce();
+        /*HashMap<String, Integer> reduced3 = red3.getReduce();
         reducedListfinale.add(reduced3);
-        System.out.println(reduced3);
+        System.out.println(reduced3);*/
 
         Reducer red4 = new Reducer(reducedList4);
-        HashMap<String, Integer> reduced4 = red4.getReduce();
+        /*HashMap<String, Integer> reduced4 = red4.getReduce();
         reducedListfinale.add(reduced4);
-        System.out.println(reduced4);
+        System.out.println(reduced4);*/
 
-        System.out.println(reducedListfinale);
+        ArrayList<Reducer> lesReds =new ArrayList<>();
+
+        red1.start();
+        red2.start();
+        red3.start();
+        red4.start();
+
+        lesReds.add(red1);
+        lesReds.add(red2);
+        lesReds.add(red3);
+        lesReds.add(red4);
+
+        for(int i=0 ; i < lesReds.size();i++){
+            lesReds.get(i).join();
+        }
+
+
+        reducedListfinale.add(red1.getReduced());
+        reducedListfinale.add(red2.getReduced());
+        reducedListfinale.add(red3.getReduced());
+        reducedListfinale.add(red4.getReduced());
+
+
 
         Reducer red5 = new Reducer(reducedListfinale);
-        HashMap<String, Integer> reduced5 = red5.getReduce();
-        System.out.println(reduced5);
+        red5.start();
+        red5.join();
+
+        System.out.println(red5.getReduced());
+        /*HashMap<String, Integer> reduced5 = red5.getReduce();
+        System.out.println(reduced5); */
+
+
+        long endTime = System.nanoTime();
+        long totalTime =endTime-startTime;
+        System.out.println("temps d'exec de notre code : "+ (totalTime*0.000000001) + " secondes");
 
     }
 

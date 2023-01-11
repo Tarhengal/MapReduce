@@ -1,13 +1,15 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
-public class Mapper {
+public class Mapper extends Thread{
 
     public ArrayList<String> myList;
     ArrayList<HashMap> shuffleList = new ArrayList<HashMap>();
     public int ascii;
     public int nbReduce;
+    public ArrayList<HashMap> outputList;
 
     public Mapper(ArrayList<String> myList, int nbReduce) {
         this.myList = myList;
@@ -41,5 +43,19 @@ public class Mapper {
         }
         return shuffleList;
     }
-    
+    @Override
+    public void run(){
+
+        this.getShuffleList();
+        this.outputList = this.getMap();
+
+    }
+
+    public ArrayList<HashMap> getOutputList() {
+        return outputList;
+    }
+
+    public void setOutputList(ArrayList<HashMap> outputList) {
+        this.outputList = outputList;
+    }
 }

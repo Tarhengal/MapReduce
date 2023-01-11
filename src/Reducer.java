@@ -2,10 +2,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Reducer {
+public class Reducer extends Thread {
 
     public ArrayList<HashMap> shuffleList;
+    public HashMap<String, Integer> reduced;
 
+    public HashMap<String, Integer> getReduced() {
+        return reduced;
+    }
+
+    public void setReduced(HashMap<String, Integer> reduced) {
+        this.reduced = reduced;
+    }
 
     public Reducer(ArrayList<HashMap> shuffleList) {
         this.shuffleList = shuffleList;
@@ -24,5 +32,11 @@ public class Reducer {
             }
         }
         return reduced;
+    }
+    @Override
+    public void run(){
+        this.reduced = this.getReduce();
+
+
     }
 }
